@@ -383,3 +383,91 @@ input.input-error {
     border-color: #f87171 !important;
     background: #1a1010 !important;
 }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 500px) {
+    body {
+        padding: 16px;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    header h1 {
+        font-size: 1.2rem;
+    }
+
+    .card {
+        padding: 18px 16px;
+    }
+
+    .units button {
+        font-size: 11px;
+        padding: 10px 6px;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .row > div {
+        width: 100%;
+    }
+
+    /* imperial 3-col row stays readable */
+    #imperialInputs .row {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    #imperialInputs .row > div {
+        flex: 1 1 calc(33% - 8px);
+        min-width: 80px;
+    }
+
+    .gender button {
+        padding: 10px 8px;
+        font-size: 12px;
+        justify-content: center;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    #resetBtn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .bmi-value {
+        font-size: 3.8rem;
+    }
+
+    .bmi-info {
+        flex-direction: column;
+    }
+
+    .modal-content {
+        width: 92vw;
+        padding: 18px 14px;
+    }
+
+    #historyList li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .history-right {
+        width: 100%;
+    }
+
+    .history-right button {
+        width: 100%;
+        text-align: center;
+    }
+}
