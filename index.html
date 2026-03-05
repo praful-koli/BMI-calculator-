@@ -1,170 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BMI Calculator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class="container">
 
-        <!-- Header -->
-        <div class="header-row">
-            <div>
-                <h1>BMI Calculator</h1>
-                <p class="sub">Calculate and save BMI records by name.</p>
-            </div>
-            <button class="history-btn" onclick="openModal()">
-                📋 History <span class="h-count" id="h-count">0</span>
-            </button>
+<div class="container">
+
+    <header>
+        <h1>BMI Calculator</h1>
+        <button id="historyBtn">📋 History <span class="history-badge" id="historyCount">0</span></button>
+    </header>
+
+    <div class="card">
+        <h3>UNITS</h3>
+        <div class="units">
+            <button id="metricBtn" class="active">Metric (cm / kg)</button>
+            <button id="imperialBtn">Imperial (ft / lbs)</button>
         </div>
 
-        <!-- Input Block -->
-        <div class="block">
-            <div class="block-title">Units</div>
-            <div class="seg" id="unit-seg">
-                <button class="seg-btn active" onclick="setUnit('metric')">Metric (cm / kg)</button>
-                <button class="seg-btn" onclick="setUnit('imperial')">Imperial (ft / lbs)</button>
-            </div>
+        <h3>YOUR DETAILS</h3>
+        <label>Full Name</label>
+        <input type="text" id="name" placeholder="eg. Praful" autocomplete="off">
+        <span class="err-msg" id="err-name">⚠ Full name is required</span>
 
-            <div class="block-title">Your Details</div>
-
-            <!-- Name -->
-            <div class="field name-field">
-                <label>Full Name</label>
-                <input type="text" id="name" placeholder="e.g Praful" autocomplete="off">
-            </div>
-
-            <!-- Metric Fields -->
-            <div id="metric-fields">
-                <div class="form-grid">
-                    <div class="field">
-                        <label>Height</label>
-                        <div class="inp-wrap">
-                            <input type="number" id="m-height" placeholder="175" min="50" max="300">
-                            <span class="inp-unit">cm</span>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>Weight</label>
-                        <div class="inp-wrap">
-                            <input type="number" id="m-weight" placeholder="70" min="1" max="700">
-                            <span class="inp-unit">kg</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Imperial Fields -->
-            <div id="imperial-fields" style="display:none">
-                <div class="form-grid three">
-                    <div class="field">
-                        <label>Feet</label>
-                        <div class="inp-wrap">
-                            <input type="number" id="i-ft" placeholder="5" min="1" max="9">
-                            <span class="inp-unit">ft</span>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>Inches</label>
-                        <div class="inp-wrap">
-                            <input type="number" id="i-in" placeholder="9" min="0" max="11">
-                            <span class="inp-unit">in</span>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>Weight</label>
-                        <div class="inp-wrap">
-                            <input type="number" id="i-lbs" placeholder="154" min="1" max="1500">
-                            <span class="inp-unit">lbs</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Age & Gender -->
-            <div class="form-grid age-gender">
-                <div class="field">
-                    <label>Age</label>
-                    <div class="inp-wrap">
-                        <input type="number" id="age" placeholder="20" min="2" max="100">
-                        <span class="inp-unit">yrs</span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label>Gender</label>
-                    <div class="g-row">
-                        <button class="g-btn active" id="btn-m" onclick="setGender('male')">♂ Male</button>
-                        <button class="g-btn" id="btn-f" onclick="setGender('female')">♀ Female</button>
-                    </div>
-                </div>
-            </div>
-
-            <p class="error" id="err">⚠ Please enter valid height and weight.</p>
-
-            <div class="btn-row">
-                <button class="cal-btn" onclick="calculate()">Calculate BMI</button>
-                <button class="reset-btn" onclick="resetForm()">↺ Reset</button>
-            </div>
-        </div>
-
-        <!-- Result Section -->
-        <div class="result" id="result">
-
-            <!-- Save Confirmation Banner -->
-            <div class="save-banner" id="save-banner">
+        <div id="metricInputs">
+            <div class="row">
                 <div>
-                    <div class="sb-text" id="sb-text"></div>
-                    <div class="sb-sub" id="sb-sub"></div>
+                    <label>Height</label>
+                    <input type="number" id="heightCm" placeholder="Height (cm)" autocomplete="off">
+                    <span class="err-msg" id="err-heightCm">⚠ Height is required</span>
+                </div>
+                <div>
+                    <label>Weight</label>
+                    <input type="number" id="weightKg" placeholder="Weight (kg)" autocomplete="off">
+                    <span class="err-msg" id="err-weightKg">⚠ Weight is required</span>
                 </div>
             </div>
+        </div>
 
-            <!-- BMI Result Card -->
-            <div class="block">
-                <div class="block-title">Your BMI Result</div>
-                <div class="bmi-row">
-                    <div>
-                        <div class="bmi-num" id="bmi-num">0</div>
-                        <div class="bmi-cat" id="bmi-cat"></div>
-                    </div>
-                    <div class="bmi-badge" id="bmi-badge"></div>
+        <div id="imperialInputs" class="hide">
+            <div class="row">
+                <div>
+                    <label>Feet</label>
+                    <input type="number" id="feet" placeholder="5" autocomplete="off">
+                    <span class="err-msg" id="err-feet">⚠ Feet is required</span>
                 </div>
-                <div class="scale-track">
-                    <div class="scale-dot" id="dot" style="left:2%"></div>
+                <div>
+                    <label>Inches</label>
+                    <input type="number" id="inches" placeholder="9" autocomplete="off">
                 </div>
-                <div class="scale-labels">
-                    <span>Underweight<br>&lt;18.5</span>
-                    <span>Normal<br>18.5–25</span>
-                    <span>Overweight<br>25–30</span>
-                    <span>Obese<br>&gt;30</span>
+                <div>
+                    <label>Weight</label>
+                    <input type="number" id="weightLbs" placeholder="154" autocomplete="off">
+                    <span class="err-msg" id="err-weightLbs">⚠ Weight is required</span>
                 </div>
             </div>
+        </div>
 
+        <div class="row">
+            <div>
+                <label>Age</label>
+                <input type="number" id="age" placeholder="20" autocomplete="off">
+                <span class="err-msg" id="err-age">⚠ Age is required</span>
+            </div>
+            <div>
+                <label>Gender</label>
+                <div class="gender">
+                    <button id="maleBtn" class="active"><span>♂</span> Male</button>
+                    <button id="femaleBtn"><span>♀</span> Female</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button id="calcBtn">Calculate BMI</button>
+            <button id="resetBtn">↺ Reset</button>
         </div>
     </div>
 
-    <!-- History Modal -->
-    <div class="modal-overlay" id="modal-overlay" onclick="overlayClick(event)">
-        <div class="modal">
-            <div class="modal-header">
-                <div style="display:flex;align-items:center">
-                    <span class="modal-title">📋 BMI History</span>
-                    <span class="modal-count" id="modal-count"></span>
-                </div>
-                <button class="modal-close" onclick="closeModal()">✕</button>
-            </div>
-            <div class="modal-body" id="modal-body"></div>
-            <div class="modal-footer">
-                <button class="clear-btn" onclick="clearAll()">🗑 Clear All</button>
-            </div>
+    <div id="resultCard" class="result hide">
+        <div class="card-header"><h2>Your Result</h2></div>
+        <div class="card-body">
+            <div id="bmiValue" class="bmi-value">0</div>
+            <div class="bmi-status"><span id="bmiStatusSpan"></span></div>
+            <div id="bmiInfo" class="bmi-info"></div>
         </div>
     </div>
 
-    <script src="app.js"></script>
+</div>
+
+<div id="historyModal" class="modal hide">
+    <div class="modal-content">
+        <span id="closeHistory" class="close">&times;</span>
+        <h2>BMI History</h2>
+        <ul id="historyList"></ul>
+        <button id="deleteAllHistory" class="delete-all">🗑 Delete All</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
 </body>
-
 </html>
